@@ -16,12 +16,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from IASalud_SENSE_Django.views import prueba1
+from IASalud_SENSE_Django.views import *
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('prueba1/', prueba1),
-    path('', include('apps.hospitales.urls'))
+    path('api/login', login),
+    path('api/signup', signup),
+    path('api/pruebaToken', pruebaToken),
+    path('', include('apps.hospitales.urls'),),
+    path('', include('apps.pacientes.urls'),),
+    path('', include('apps.sensores.urls'),),
+    path('', include('apps.boxes.urls'),),
+    path('', include('apps.tareas.urls'),),
+    path('', include('apps.registros.urls'),),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh')
 ]

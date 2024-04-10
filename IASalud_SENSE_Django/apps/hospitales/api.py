@@ -8,3 +8,4 @@ class HospitalViewSet(viewsets.ModelViewSet):
         permissions.AllowAny
     ]
     serializer_class = HospitalSerializer
+    
