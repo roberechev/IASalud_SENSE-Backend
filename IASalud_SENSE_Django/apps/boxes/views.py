@@ -26,6 +26,25 @@ def add_sensor_to_box(request, box_id):
         return Response({'error': 'El box ya tiene asignada ese sensor.'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['POST'])
+def eliminar_sensor_of_box(request, box_id):
+    try:
+        box = Box.objects.get(pk=box_id)
+    except Box.DoesNotExist:
+        return Response({"error": "Box does not exist"}, status=status.HTTP_404_NOT_FOUND)
+    
+    id_sensor = request.data.get('id_sensor')
+    try:
+        sensor = Sensor.objects.get(pk=id_sensor)
+        box.sensores.remove(sensor)
+        box.save()
+        return Response({"message": "Sensor removed from box successfully"}, status=status.HTTP_201_CREATED)
+    except Sensor.DoesNotExist:
+        return Response({"error": "Sensor does not exist"}, status=status.HTTP_404_NOT_FOUND)
+    except Exception:
+        return Response({'error': 'Fallo inesperado en el sensor (no existe ese sensor)'}, status=status.HTTP_404_NOT_FOUND)
+    
+
+@api_view(['POST'])
 def add_paciente_to_box(request, box_id):
     try:
         box = Box.objects.get(pk=box_id)
@@ -109,3 +128,11 @@ def upload_audio_to_box(request, box_id):
     
     return Response({'error': 'No audio file provided'}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+def delete_box(request, box_id):
+        try:
+            box = Box.objects.get(pk=box_id)
+        except Paciente.DoesNotExist:
+            return Response({"error": "Box does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        box.soft_delete()  # Marcar como eliminado
+        return Response(status=status.HTTP_204_NO_CONTENT)

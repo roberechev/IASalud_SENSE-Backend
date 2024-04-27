@@ -21,7 +21,10 @@ def prueba1(request):
 @api_view(['POST'])
 def login(request):
     infoRequest = request.data
-    user = get_object_or_404(User, username=infoRequest['usuario']['username'])
+    try:
+        user = get_object_or_404(User, username=infoRequest['usuario']['username'])
+    except:
+        return Response("Invalid Username")
     if not user.check_password(infoRequest['usuario']['password']):
         return Response("Invalid Password")
     # token, created = Token.objects.get_or_create(user=user)

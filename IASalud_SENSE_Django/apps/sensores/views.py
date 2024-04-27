@@ -3,6 +3,18 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Sensor, Registro
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+
+@api_view(['POST'])
+def delete_sensor(request, sensor_id):
+        try:
+            sensor = Sensor.objects.get(pk=sensor_id)
+        except Sensor.DoesNotExist:
+            return Response({"error": "Sensor does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        sensor.soft_delete()  # Marcar como eliminado
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['POST'])
 def add_registro_to_sensor(request, sensor_id):
