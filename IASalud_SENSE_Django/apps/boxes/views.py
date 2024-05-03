@@ -91,8 +91,10 @@ def upload_audio_to_box(request, box_id):
     if request.method == 'POST' and request.FILES.get('audio'):
         audio_file = request.FILES['audio']
         
+        nombreTarea = request.data.get('nombreTarea')
+        nombreTarea = nombreTarea.replace(' ', '-')
         # Generar un nombre único para el archivo de audio
-        audio_name = str(uuid.uuid4()) + '.mp3'
+        audio_name = nombreTarea + str(uuid.uuid4())[:10] + '.mp3'
         # audio_name = audio_name.replace('-', '_')
         audio_file.name = audio_name
         
