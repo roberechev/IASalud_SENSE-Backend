@@ -13,4 +13,6 @@ class SensorSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         if instance.eliminado:  # Si el sensor está marcado como eliminado, no devolverlo en la consulta
             return None
-        return super().to_representation(instance)
+        representation = super().to_representation(instance)
+        representation.pop('registros')
+        return representation
