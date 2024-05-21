@@ -62,7 +62,9 @@ CORS_ALLOW_CREDENTIALS = True
 # ]
 # CORS_ORIGIN_WHITELIST = (
 #     'http://localhost:4200',
-#     'http://192.168.1.134:4200'
+#     'http://192.168.1.134:80',
+#     'http://192.168.1.134',
+#     'http://roberprueba.com',
 # )
 
 
